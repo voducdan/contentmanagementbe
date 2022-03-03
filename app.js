@@ -32,6 +32,7 @@ app.use('/api/categories', categoryRouter);
 
 // use static
 app.use('/', express.static(path.join(__dirname, 'dist/project')));
+app.use('/metadata/:id', express.static(path.join(__dirname, 'dist/project')));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
