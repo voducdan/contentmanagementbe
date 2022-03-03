@@ -10,6 +10,7 @@ require('dotenv').config()
 const topicRouter = require('./routes/topic');
 const statusRouter = require('./routes/status');
 const topicCancelRouter = require('./routes/topicCancel');
+const categoryRouter = require('./routes/category');
 
 const app = express();
 
@@ -27,6 +28,7 @@ db.sequelize.sync();
 app.use('/api/topics', topicRouter);
 app.use('/api/statuses', statusRouter);
 app.use('/api/topic-cancel', topicCancelRouter);
+app.use('/api/categories', categoryRouter);
 
 // use static
 app.use('/', express.static(path.join(__dirname, 'dist/project')));

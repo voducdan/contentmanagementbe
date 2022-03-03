@@ -1,16 +1,29 @@
 const db = require('../models');
 
-const Status = db.statuses;
+const Category = db.categories;
 
 const Op = db.Sequelize.Op;
 
 exports.findAll = (req, res) => {
-    const tab = req.query.tab;
-    Status.findAll(
-        {
-            where: {
-                tab: tab
+    const parentId = req.query.parent;
+    let filterStatement = null;
+    if (parentId) {
+        filterStatement = {
+            parent_id: parentId
+        }
+    }
+    else {
+        filterStatement = {
+            parent_id: {
+                [Op.eq]: null
             }
+        }
+    }
+
+
+    Category.findAll(
+        {
+            where: filterStatement
         }
     )
         .then(data => {

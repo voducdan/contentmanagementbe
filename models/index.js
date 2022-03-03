@@ -17,6 +17,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const topics = require("./topic.model")(sequelize, Sequelize);
 const statuses = require("./status.model")(sequelize, Sequelize);
 const topicCancel = require("./topicCancel.model")(sequelize, Sequelize);
+const categories = require("./category.model")(sequelize, Sequelize);
 
 const db = {};
 
@@ -26,10 +27,23 @@ db.sequelize = sequelize;
 db.topics = topics;
 db.statuses = statuses;
 db.topicCancel = topicCancel;
+db.categories = categories;
 
 topics.hasOne(statuses, {
     foreignKey: 'id',
     sourceKey: 'status_id'
+});
+topics.hasOne(statuses, {
+    foreignKey: 'id',
+    sourceKey: 'status_id'
+});
+topics.hasOne(categories, {
+    foreignKey: 'id',
+    sourceKey: 'category_level_2'
+});
+topics.hasOne(categories, {
+    foreignKey: 'id',
+    sourceKey: 'category_level_1'
 });
 topicCancel.belongsTo(topics, {
     foreignKey: 'id_topic',

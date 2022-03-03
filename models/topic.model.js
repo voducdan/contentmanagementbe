@@ -2,6 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const topics = sequelize.define("topics",
         {
             id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+            topic_id: { type: Sequelize.INTEGER},
             original_name: { type: Sequelize.STRING },
             vi_name: { type: Sequelize.STRING },
             short_description: { type: Sequelize.TEXT },
@@ -21,13 +22,30 @@ module.exports = (sequelize, Sequelize) => {
             royalty: { type: Sequelize.FLOAT },
             copyright_price: { type: Sequelize.FLOAT },
             translation_cost: { type: Sequelize.FLOAT },
+            produce_cost:{type: Sequelize.FLOAT},
             buy_permission: { type: Sequelize.STRING },
             partner_note: { type: Sequelize.TEXT },
             voice_note: { type: Sequelize.TEXT },
             contract_note: { type: Sequelize.TEXT },
             cover_url: { type: Sequelize.STRING },
             translation: { type: Sequelize.BOOLEAN },
+            tab: { type: Sequelize.INTEGER },
+            expected_completion_day: { 
+                type: 'TIMESTAMP', 
+                defaultValue: null,
+                allowNull: true 
+            },
             completed_at: {
+                type: 'TIMESTAMP',
+                defaultValue: null,
+                allowNull: true
+            },
+            completed_produce_at: {
+                type: 'TIMESTAMP',
+                defaultValue: null,
+                allowNull: true
+            },
+            completed_upload_at: {
                 type: 'TIMESTAMP',
                 defaultValue: null,
                 allowNull: true
@@ -41,6 +59,14 @@ module.exports = (sequelize, Sequelize) => {
                 type: 'TIMESTAMP',
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
                 allowNull: false
+            },
+            created_on_produce_tab: {
+                type: 'TIMESTAMP',
+                allowNull: true
+            },
+            created_on_upload_tab: {
+                type: 'TIMESTAMP',
+                allowNull: true
             },
             updated_at: {
                 type: 'TIMESTAMP',

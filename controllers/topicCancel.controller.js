@@ -10,7 +10,6 @@ exports.create = (req, res) => {
         id_topic: req.body.id_topic,
         reason: req.body.reason
     };
-    console.log(body)
     // Save topic in the database
     topicCancel.create(body)
         .then(data => {
