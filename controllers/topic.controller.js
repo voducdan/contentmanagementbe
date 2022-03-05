@@ -3,6 +3,7 @@ const db = require('../models');
 const Topic = db.topics;
 const Status = db.statuses;
 const TopicCancel = db.topicCancel;
+const Log = db.logs;
 
 const Op = db.Sequelize.Op;
 
@@ -133,11 +134,46 @@ exports.update = async (req, res) => {
         if (coverImg) {
             body['cover_url'] = coverImg.path;
         }
+
+        const previousTopic = await Topic.findOne({
+            include: [{
+                model: Status,
+                required: true
+            }],
+            where: {
+                id: body.id
+            }
+        })
+
         await Topic.update(body, {
             where: {
                 id: body.id
             }
         });
+
+        for (let i in body) {
+            if (![
+                'expected_completion_day',
+                'completed_at',
+                'completed_produce_at',
+                'completed_upload_at',
+                'last_modified_status',
+                'created_at',
+                'created_on_produce_tab',
+                'created_on_upload_tab',
+                'updated_at',
+                'status'
+            ].includes(i) && String(body[i]) !== String(previousTopic[i])) {
+                let log = {
+                    user_id: req.user.id,
+                    updated_column: i,
+                    old_value: previousTopic[i],
+                    new_value: body[i],
+                }
+                await Log.create(log)
+            }
+        }
+
         const topic = await Topic.findOne({
             include: [{
                 model: Status,
