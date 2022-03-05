@@ -186,7 +186,7 @@ exports.update = async (req, res) => {
         if ([10, 11].includes(topic.status_id)) {
             TopicCancel.findOne({
                 where: {
-                    id_topic: topicMeta.topic_id
+                    id_topic: topic.topic_id
                 }
             })
                 .then(topicCancel => {
