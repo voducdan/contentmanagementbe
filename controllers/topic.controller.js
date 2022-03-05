@@ -6,9 +6,21 @@ const TopicCancel = db.topicCancel;
 
 const Op = db.Sequelize.Op;
 
+const TABS = {
+    1: 'copyright',
+    2: 'produce',
+    3: 'upload'
+}
+
 // Retrieve all topic from the database.
 exports.findAll = (req, res) => {
     const tab = req.query.tab;
+    if (req.user.role.role !== 'admin' && req.user.role.role !== TABS[tab]) {
+        res.status(401).json({
+            message: "Unauthorized"
+        });
+        return;
+    }
     Topic.findAll({
         include: [{
             model: Status,
@@ -107,8 +119,17 @@ exports.create = (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const coverImg = req.file;
         const { body } = req;
+
+        const type = req.headers.type;
+        if (type === 'metadata' && !['admin', 'copyright'].includes(req.user.role.role)) {
+            res.status(401).json({
+                message: "Unauthorized"
+            });
+            return;
+        }
+
+        const coverImg = req.file;
         if (coverImg) {
             body['cover_url'] = coverImg.path;
         }

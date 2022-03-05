@@ -11,6 +11,7 @@ const topicRouter = require('./routes/topic');
 const statusRouter = require('./routes/status');
 const topicCancelRouter = require('./routes/topicCancel');
 const categoryRouter = require('./routes/category');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/topics', topicRouter);
 app.use('/api/statuses', statusRouter);
 app.use('/api/topic-cancel', topicCancelRouter);
 app.use('/api/categories', categoryRouter);
+app.use('/api/auth', userRouter);
 
 // use static
 app.use('/', express.static(path.join(__dirname, 'dist/project')));

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const getSignedJWT = function () {
-    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
+const getSignedJWT = function (id) {
+    return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
 module.exports = {
