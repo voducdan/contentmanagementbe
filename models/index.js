@@ -18,6 +18,9 @@ const topics = require("./topic.model")(sequelize, Sequelize);
 const statuses = require("./status.model")(sequelize, Sequelize);
 const topicCancel = require("./topicCancel.model")(sequelize, Sequelize);
 const categories = require("./category.model")(sequelize, Sequelize);
+const logs = require("./log.model")(sequelize, Sequelize);
+const users = require("./user.model")(sequelize, Sequelize);
+const roles = require("./role.model")(sequelize, Sequelize);
 
 const db = {};
 
@@ -28,14 +31,17 @@ db.topics = topics;
 db.statuses = statuses;
 db.topicCancel = topicCancel;
 db.categories = categories;
+db.logs = logs;
+db.users = users;
+db.roles = roles;
 
 topics.hasOne(statuses, {
     foreignKey: 'id',
     sourceKey: 'status_id'
 });
-topics.hasOne(statuses, {
+users.hasOne(roles, {
     foreignKey: 'id',
-    sourceKey: 'status_id'
+    sourceKey: 'role_id'
 });
 topics.hasOne(categories, {
     foreignKey: 'id',
@@ -48,6 +54,10 @@ topics.hasOne(categories, {
 topicCancel.belongsTo(topics, {
     foreignKey: 'id_topic',
     sourceKey: 'topic_id'
+});
+logs.belongsTo(users, {
+    foreignKey: 'id',
+    sourceKey: 'user_id'
 });
 
 module.exports = db;

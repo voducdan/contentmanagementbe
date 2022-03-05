@@ -126,7 +126,25 @@ exports.update = async (req, res) => {
                 id: body.id
             }
         })
-        res.status(200).json({ data: topic });
+        if ([10, 11].includes(topic.status_id)) {
+            TopicCancel.findOne({
+                where: {
+                    id_topic: topicMeta.topic_id
+                }
+            })
+                .then(topicCancel => {
+                    res.status(200).json({ data: topic, topicCancel: topicCancel });
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        message:
+                            err.message || "Đã xảy ra lỗi khi lấy thông tin đề tài!"
+                    });
+                })
+        }
+        else {
+            res.status(200).json({ data: topic });
+        }
     }
     catch (err) {
         res.status(500).json({
