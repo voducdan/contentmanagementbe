@@ -18,7 +18,7 @@ const app = express();
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200
-  }
+}
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -40,6 +40,7 @@ app.use('/api/auth', userRouter);
 // use static
 app.use('/', express.static(path.join(__dirname, 'dist/project')));
 app.use('/metadata/:id', express.static(path.join(__dirname, 'dist/project')));
+app.use('/login/:id', express.static(path.join(__dirname, 'dist/project')));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
