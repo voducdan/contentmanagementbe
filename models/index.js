@@ -16,6 +16,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 });
 
 const topics = require("./topic.model")(sequelize, Sequelize);
+const topicsBackup = require("./topicBackup.model")(sequelize, Sequelize);
 const statuses = require("./status.model")(sequelize, Sequelize);
 const topicCancel = require("./topicCancel.model")(sequelize, Sequelize);
 const categories = require("./category.model")(sequelize, Sequelize);
@@ -35,6 +36,7 @@ db.categories = categories;
 db.logs = logs;
 db.users = users;
 db.roles = roles;
+db.topicsBackup = topicsBackup;
 
 topics.hasOne(statuses, {
     foreignKey: 'id',
@@ -54,7 +56,8 @@ topics.hasOne(categories, {
 });
 topicCancel.belongsTo(topics, {
     foreignKey: 'id_topic',
-    sourceKey: 'topic_id'
+    sourceKey: 'topic_id',
+    onDelete: 'cascade'
 });
 logs.belongsTo(users, {
     foreignKey: 'id',

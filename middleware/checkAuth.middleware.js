@@ -43,14 +43,21 @@ exports.checkToken = async (req, res, next) => {
 
 exports.authorize = (...roles) => {
     return (req, res, next) => {
-        const userRole = req.user.role.role;
-        console.log(req.user.role.role)
-        if (!roles.includes(userRole)) {
-            res.status(401).json({
-                message: "Unauthorized"
-            });
-            return;
+        try {
+            const userRole = req.user.role.role;
+            if (!roles.includes(userRole)) {
+                res.status(401).json({
+                    message: "Unauthorized"
+                });
+                return;
+            }
+            next();
         }
-        next();
+        catch (error) {
+            res.status(500).json({
+                message:
+                    error.message || "Unauthenticate"
+            });
+        }
     };
 };

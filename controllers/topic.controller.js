@@ -4,6 +4,7 @@ const Topic = db.topics;
 const Status = db.statuses;
 const TopicCancel = db.topicCancel;
 const Log = db.logs;
+const TopicsBackup = db.topicsBackup;
 
 const Op = db.Sequelize.Op;
 
@@ -40,6 +41,21 @@ exports.findAll = (req, res) => {
                     err.message || "Đã xảy ra lỗi khi lấy thông tin đề tài!"
             });
         });
+};
+exports.findMaxTab = (req, res) => {
+    const topicId = req.params.topicId;
+    console.log(topicId)
+    Topic.max('tab', { where: { 'topic_id': topicId } })
+        .then(maxTab => {
+            res.status(200).json({ maxTab });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message:
+                    err.message
+            });
+        });
+
 };
 exports.findOne = (req, res) => {
     const topicId = req.params.topicId;
@@ -210,3 +226,35 @@ exports.update = async (req, res) => {
         });
     }
 };
+
+exports.delete = async (req, res) => {
+    const topicId = req.params.topicId;
+    try {
+        const deletedTopic = await Topic.findOne({
+            where: {
+                topic_id: topicId
+            }
+        });
+        const deletedTopicValue = deletedTopic.dataValues;
+        await TopicCancel.destroy({
+            where: {
+                id_topic: deletedTopic.topic_id
+            }
+        });
+        await Topic.destroy(
+            {
+                where: {
+                    topic_id: deletedTopicValue.topic_id
+                }
+            }
+        );
+        await TopicsBackup.create(deletedTopicValue);
+        res.status(200).json({ data: deletedTopicValue });
+    }
+    catch (err) {
+        res.status(500).json({
+            message:
+                err.message
+        });
+    };
+}

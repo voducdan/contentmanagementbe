@@ -21,6 +21,8 @@ const authMiddleware = require("../middleware/checkAuth.middleware");
 /* GET home page. */
 router.get('/', authMiddleware.checkToken, authMiddleware.authorize('admin', 'copyright', 'produce', 'upload'), topics.findAll);
 router.get('/:topicId', authMiddleware.checkToken, authMiddleware.authorize('admin', 'copyright', 'produce', 'upload'), topics.findOne);
+router.delete('/:topicId', authMiddleware.checkToken, authMiddleware.authorize('admin'), topics.delete);
+router.get('/maxtab/:topicId', topics.findMaxTab);
 router.post('/', authMiddleware.checkToken, authMiddleware.authorize('admin', 'copyright', 'produce', 'upload'), topics.create);
 router.put('/', authMiddleware.checkToken, authMiddleware.authorize('admin', 'copyright', 'produce', 'upload'), upload.single('coverImg'), topics.update);
 
