@@ -44,10 +44,22 @@ exports.findAll = (req, res) => {
 };
 exports.findMaxTab = (req, res) => {
     const topicId = req.params.topicId;
+    const tab = Number(req.query.tab);
     console.log(topicId)
-    Topic.max('tab', { where: { 'topic_id': topicId } })
-        .then(maxTab => {
-            res.status(200).json({ maxTab });
+
+    Topic.findOne({
+        where: {
+            topic_id: topicId,
+            tab: tab + 1
+        }
+    })
+        .then(data => {
+            if (data) {
+                res.status(200).json({ status: data.status_id });
+            }
+            else {
+                res.status(200).json({ status: null });
+            }
         })
         .catch(err => {
             res.status(500).json({
