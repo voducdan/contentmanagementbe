@@ -16,3 +16,7 @@ benchmarks/graphs
 # https://git-scm.com/docs/gitignore
 
 .env
+
+# pubic images
+public/images/
+

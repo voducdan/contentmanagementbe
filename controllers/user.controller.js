@@ -29,7 +29,7 @@ exports.login = (req, res) => {
                 const isPasswordMatch = await hashService.checkPassword(password, hashedPwd);
                 if (isPasswordMatch) {
                     const token = jwtService.getSignedJWT(user.id);
-                    res.status(200).json({ token: token, role: user.role.role });
+                    res.status(200).json({ token: token });
                 }
                 else {
                     res.status(403).json({
@@ -73,7 +73,7 @@ exports.register = (req, res) => {
                 User.create(userData)
                     .then(newUser => {
                         const token = jwtService.getSignedJWT(newUser.id);
-                        res.status(200).json({ token: token, role: user.role.role });
+                        res.status(200).json({ token: token });
                     })
             }
             else {
