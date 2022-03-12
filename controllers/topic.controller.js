@@ -17,7 +17,7 @@ const TABS = {
 // Retrieve all topic from the database.
 exports.findAll = (req, res) => {
     const tab = req.query.tab;
-    if (req.user.role.role !== 'admin' && req.user.role.role !== TABS[tab]) {
+    if (!req.userRoles.includes('admin') && !req.userRoles.includes(TABS[tab])) {
         res.status(401).json({
             message: "Unauthorized"
         });
@@ -155,7 +155,9 @@ exports.update = async (req, res) => {
         const { body } = req;
 
         const type = req.headers.type;
-        if (type === 'metadata' && !['admin', 'copyright'].includes(req.user.role.role)) {
+        console.log(req.userRoles)
+        console.log(type)
+        if (type === 'metadata' && (!req.userRoles.includes('admin') && !req.userRoles.includes('copyright'))) {
             res.status(401).json({
                 message: "Unauthorized"
             });
@@ -248,12 +250,17 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     const topicId = req.params.topicId;
     try {
+        if (!req.userRoles.includes('admin')) {
+            res.status(401).json({
+                message: "Unauthorized"
+            });
+            return;
+        }
         const deletedTopic = await Topic.findOne({
             where: {
                 topic_id: topicId
             }
         });
-        console.log(deletedTopic)
         const deletedTopicValue = deletedTopic.dataValues;
         await TopicCancel.destroy({
             where: {

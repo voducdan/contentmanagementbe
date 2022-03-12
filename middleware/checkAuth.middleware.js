@@ -1,8 +1,18 @@
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 
-const User = db.users;
 const Role = db.roles;
+const UserRole = db.userRole;
+
+function checkUserRole(user, rolesList) {
+    const userRoles = user.map(i => i.role.role);
+    for (let i of userRoles) {
+        if (rolesList.includes(i)) {
+            return true;
+        }
+    }
+    return false;
+}
 
 exports.checkToken = async (req, res, next) => {
     let token;
@@ -21,9 +31,9 @@ exports.checkToken = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await User.findOne({
+        const user = await UserRole.findAll({
             where: {
-                id: decoded.id
+                user_id: decoded.id
             },
             include: [
                 {
@@ -32,6 +42,7 @@ exports.checkToken = async (req, res, next) => {
                 }
             ]
         });
+        req.user = user;
         next();
     } catch (error) {
         res.status(403).json({
@@ -44,16 +55,17 @@ exports.checkToken = async (req, res, next) => {
 exports.authorize = (...roles) => {
     return (req, res, next) => {
         try {
-            const userRole = req.user.role.role;
-            if (!roles.includes(userRole)) {
+            if (!checkUserRole(req.user, roles)) {
                 res.status(401).json({
                     message: "Unauthorized"
                 });
                 return;
             }
+            req.userRoles = req.user.map(i => i.role.role);
             next();
         }
         catch (error) {
+            console.log(error.message);
             res.status(500).json({
                 message:
                     error.message || "Unauthenticate"

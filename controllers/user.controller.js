@@ -14,13 +14,7 @@ exports.login = (req, res) => {
         {
             where: {
                 email: email
-            },
-            include: [
-                {
-                    model: Role,
-                    required: true
-                }
-            ]
+            }
         }
     )
         .then(async user => {

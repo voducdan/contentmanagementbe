@@ -23,6 +23,7 @@ const categories = require("./category.model")(sequelize, Sequelize);
 const logs = require("./log.model")(sequelize, Sequelize);
 const users = require("./user.model")(sequelize, Sequelize);
 const roles = require("./role.model")(sequelize, Sequelize);
+const userRole = require("./userRole.model")(sequelize, Sequelize);
 
 const db = {};
 
@@ -37,14 +38,19 @@ db.logs = logs;
 db.users = users;
 db.roles = roles;
 db.topicsBackup = topicsBackup;
+db.userRole = userRole;
 
+userRole.hasOne(users, {
+    foreignKey: 'id',
+    sourceKey: 'user_id'
+});
+userRole.hasOne(roles, {
+    foreignKey: 'id',
+    sourceKey: 'role_id'
+});
 topics.hasOne(statuses, {
     foreignKey: 'id',
     sourceKey: 'status_id'
-});
-users.hasOne(roles, {
-    foreignKey: 'id',
-    sourceKey: 'role_id'
 });
 topics.hasOne(categories, {
     foreignKey: 'id',
