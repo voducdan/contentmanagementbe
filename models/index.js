@@ -48,10 +48,6 @@ users.hasOne(roles, {
 });
 topics.hasOne(categories, {
     foreignKey: 'id',
-    sourceKey: 'category_level_2'
-});
-topics.hasOne(categories, {
-    foreignKey: 'id',
     sourceKey: 'category_level_1'
 });
 topicCancel.belongsTo(topics, {

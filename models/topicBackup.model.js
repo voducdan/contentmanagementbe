@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER
             },
             category_level_1: { type: Sequelize.INTEGER },
-            category_level_2: { type: Sequelize.INTEGER },
+            category_level_2: { type: Sequelize.STRING },
             description: { type: Sequelize.TEXT },
             type_of_sale: { type: Sequelize.STRING },
             contracted_at: { type: Sequelize.DATE },

@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const topics = sequelize.define("topics",
         {
             id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-            topic_id: { type: Sequelize.INTEGER},
+            topic_id: { type: Sequelize.INTEGER },
             original_name: { type: Sequelize.STRING },
             vi_name: { type: Sequelize.STRING },
             short_description: { type: Sequelize.TEXT },
@@ -13,8 +13,10 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.INTEGER
             },
             category_level_1: { type: Sequelize.INTEGER },
-            category_level_2: { type: Sequelize.INTEGER },
+            category_level_2: { type: Sequelize.STRING },
             description: { type: Sequelize.TEXT },
+            agency: { type: Sequelize.TEXT },
+            release_date: { type: Sequelize.TEXT },
             type_of_sale: { type: Sequelize.STRING },
             contracted_at: { type: Sequelize.DATE },
             contract_term: { type: Sequelize.INTEGER },
@@ -22,7 +24,9 @@ module.exports = (sequelize, Sequelize) => {
             royalty: { type: Sequelize.FLOAT },
             copyright_price: { type: Sequelize.FLOAT },
             translation_cost: { type: Sequelize.FLOAT },
-            produce_cost:{type: Sequelize.FLOAT},
+            produce_cost: { type: Sequelize.FLOAT },
+            control_cost: { type: Sequelize.FLOAT },
+            post_production_cost: { type: Sequelize.FLOAT },
             buy_permission: { type: Sequelize.STRING },
             partner_note: { type: Sequelize.TEXT },
             voice_note: { type: Sequelize.TEXT },
@@ -30,10 +34,10 @@ module.exports = (sequelize, Sequelize) => {
             cover_url: { type: Sequelize.STRING },
             translation: { type: Sequelize.BOOLEAN },
             tab: { type: Sequelize.INTEGER },
-            expected_completion_day: { 
-                type: 'TIMESTAMP', 
+            expected_completion_day: {
+                type: 'TIMESTAMP',
                 defaultValue: null,
-                allowNull: true 
+                allowNull: true
             },
             completed_at: {
                 type: 'TIMESTAMP',

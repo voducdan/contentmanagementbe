@@ -62,6 +62,7 @@ exports.findMaxTab = (req, res) => {
             }
         })
         .catch(err => {
+            console.log(err.message)
             res.status(500).json({
                 message:
                     err.message
@@ -96,6 +97,7 @@ exports.findOne = (req, res) => {
                                 res.status(200).json({ data: topicMeta, topicCancel: topicCancel });
                             })
                             .catch(err => {
+                                console.log(err.message)
                                 res.status(500).json({
                                     message:
                                         err.message || "Đã xảy ra lỗi khi lấy thông tin đề tài!"
@@ -107,6 +109,7 @@ exports.findOne = (req, res) => {
                     }
                 })
                 .catch(err => {
+                    console.log(err.message)
                     res.status(500).json({
                         message:
                             err.message || "Đã xảy ra lỗi khi lấy thông tin đề tài!"
@@ -139,6 +142,7 @@ exports.create = (req, res) => {
 
         })
         .catch(err => {
+            console.log(err.message)
             res.status(500).json({
                 message:
                     err.message || "Đã xảy ra lỗi khi tạo đề tài!"
@@ -221,6 +225,7 @@ exports.update = async (req, res) => {
                     res.status(200).json({ data: topic, topicCancel: topicCancel });
                 })
                 .catch(err => {
+                    console.log(err.message)
                     res.status(500).json({
                         message:
                             err.message || "Đã xảy ra lỗi khi lấy thông tin đề tài!"
@@ -232,6 +237,7 @@ exports.update = async (req, res) => {
         }
     }
     catch (err) {
+        console.log(err.message)
         res.status(500).json({
             message:
                 err.message || "Đã xảy ra lỗi khi cập nhật đề tài!"
@@ -247,6 +253,7 @@ exports.delete = async (req, res) => {
                 topic_id: topicId
             }
         });
+        console.log(deletedTopic)
         const deletedTopicValue = deletedTopic.dataValues;
         await TopicCancel.destroy({
             where: {
@@ -264,6 +271,7 @@ exports.delete = async (req, res) => {
         res.status(200).json({ data: deletedTopicValue });
     }
     catch (err) {
+        console.log(err.message)
         res.status(500).json({
             message:
                 err.message

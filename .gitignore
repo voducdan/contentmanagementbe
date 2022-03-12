@@ -5,6 +5,7 @@ package-lock.json
 *.log
 *.gz
 
+
 # Coveralls
 .nyc_output
 coverage
@@ -16,3 +17,6 @@ benchmarks/graphs
 # https://git-scm.com/docs/gitignore
 
 .env
+
+# pubic images
+public/images/

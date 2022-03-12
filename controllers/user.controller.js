@@ -73,7 +73,7 @@ exports.register = (req, res) => {
                 User.create(userData)
                     .then(newUser => {
                         const token = jwtService.getSignedJWT(newUser.id);
-                        res.status(200).json({ token: token, role: user.role.role });
+                        res.status(200).json({ token: token });
                     })
             }
             else {
