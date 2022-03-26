@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
             release_date: { type: Sequelize.TEXT },
             type_of_sale: { type: Sequelize.STRING },
             contracted_at: { type: Sequelize.DATE },
-            contract_term: { type: Sequelize.INTEGER },
+            contract_term: { type: Sequelize.STRING },
             cover_price: { type: Sequelize.FLOAT },
             royalty: { type: Sequelize.FLOAT },
             copyright_price: { type: Sequelize.FLOAT },
