@@ -153,10 +153,12 @@ exports.create = (req, res) => {
 exports.update = async (req, res) => {
     try {
         const { body } = req;
-
+        for (let key in body){
+            if(body[key] === 'null'){
+                body[key] = null
+            }
+        }
         const type = req.headers.type;
-        console.log(req.userRoles)
-        console.log(type)
         if (type === 'metadata' && (!req.userRoles.includes('admin') && !req.userRoles.includes('copyright'))) {
             res.status(401).json({
                 message: "Unauthorized"
