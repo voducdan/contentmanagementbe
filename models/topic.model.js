@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
             agency: { type: Sequelize.TEXT, allowNull: true },
             release_date: { type: Sequelize.TEXT, allowNull: true },
             type_of_sale: { type: Sequelize.STRING, allowNull: true },
-            contracted_at: { type: Sequelize.DATE, allowNull: true },
+            contracted_at: { type: Sequelize.STRING, allowNull: true },
             contract_term: { type: Sequelize.STRING, allowNull: true },
             cover_price: { type: Sequelize.FLOAT, allowNull: true },
             royalty: { type: Sequelize.FLOAT, allowNull: true },
